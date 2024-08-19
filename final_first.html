@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Patient & Doctor Login/Signup</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+
+        a {
+            text-decoration: none;
+            color: #343a40; /* Ensure links are visible */
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            padding: 10px 0;
+            margin-bottom: 20px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo img {
+            width: 100px; /* Make logo smaller */
+            height: auto;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 15px; /* Reduce gap between items */
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            font-weight: bold;
+            color: #343a40; /* Ensure text color is dark */
+            padding: 5px 10px; /* Reduce padding for a more compact look */
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: #e9ecef;
+        }
+
+        .contact-info {
+            text-align: right;
+            font-size: 0.9em;
+            color: #343a40; /* Ensure text color is dark */
+        }
+
+        .contact-info div {
+            margin-bottom: 5px;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #ffffff;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .footer-links ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0 0 15px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .footer-links ul li {
+            display: inline;
+        }
+
+        .footer-links ul li a {
+            color: #343a40;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .footer-links ul li a:hover {
+            background-color: #e9ecef;
+        }
+
+        .footer-container p {
+            margin: 0;
+            color: #6c757d;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            display: flex;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .form-container {
+            width: 40%;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-right: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            background-color: #f8f9fa;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .doctor-fields, .patient-fields, .form-section {
+            display: none;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .nav-buttons button {
+            width: 48%;
+        }
+
+        /* Slideshow Styles */
+        .slideshow-container {
+            width: 60%;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            height: 524.16px;
+        }
+
+        .mySlides {
+            display: none;
+            height: 100%;
+        }
+
+        .mySlides img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .dot-container {
+            text-align: center;
+            position: absolute;
+            bottom: 15px;
+            width: 100%;
+        }
+
+        .dot {
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+        .active {
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <!-- Placeholder image for logo -->
+                <img src="https://via.placeholder.com/100x50?text=Logo" alt="Health Portal Logo">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Our Specialities</a></li>
+                    <li><a href="#">Find A Doctor</a></li>
+                    <li><a href="#">International Patients</a></li>
+                    <li><a href="#">Get in Touch</a></li>
+                </ul>
+            </nav>
+            <div class="contact-info">
+                <div>
+                    <p>24x7 Emergency Care</p>
+                    <p>040 67 19 20 21</p>
+                </div>
+                <div>
+                    <p>Citizens Lifeline</p>
+                    <p>040 67 19 19 19</p>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+
+<div class="main-content">
+    <div class="form-container">
+        <h2 id="formTitle">Login / Signup</h2>
+        <div class="nav-buttons">
+            <button id="loginButton">Login</button>
+            <button id="signupButton">Signup</button>
+        </div>
+
+        <div id="formSection" class="form-section">
+            <form id="userForm">
+                <label for="userType">I am a:</label>
+                <select id="userType" name="userType" required>
+                    <option value="patient">Patient</option>
+                    <option value="doctor">Doctor</option>
+                </select>
+
+                <div class="common-fields">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <div class="patient-fields">
+                    <label for="history">Medical History:</label>
+                    <textarea id="history" name="history"></textarea>
+
+                    <label for="allergies">Allergies:</label>
+                    <textarea id="allergies" name="allergies"></textarea>
+                </div>
+
+                <div class="doctor-fields">
+                    <label for="department">Department:</label>
+                    <input type="text" id="department" name="department">
+
+                    <label for="specialization">Specialization:</label>
+                    <input type="text" id="specialization" name="specialization">
+
+                    <label for="experience">Prior Experience (years):</label>
+                    <input type="number" id="experience" name="experience" min="0">
+                </div>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="slideshow-container" >
+        <div class="mySlides fade">
+            <img src="young-doctor-supporting-his-patient.jpg" alt="Healthcare Image 1">
+        </div>
+
+        <div class="mySlides fade">
+            <img src="male-working-as-paediatrician.jpg" alt="Healthcare Image 2">
+        </div>
+
+        <div class="mySlides fade">
+            <img src="happy-doctor-greeting-handshaking-with-senior-patient-his-office-focus-is-senior-man.jpg" alt="Healthcare Image 3">
+        </div>
+
+        <div class="dot-container">
+            <span class="dot"></span> 
+            <span class="dot"></span> 
+            <span class="dot"></span> 
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-container">
+        <div class="footer-links">
+            <ul>
+                <li><a href="#">Book an Appointment</a></li>
+                <li><a href="#">Health Checkup</a></li>
+                <li><a href="#">Online Consultation</a></li>
+            </ul>
+        </div>
+        <p>&copy; 2024 Health Portal. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<script>
+    // Show login/signup form
+    const formTitle = document.getElementById('formTitle');
+    const formSection = document.getElementById('formSection');
+    const loginButton = document.getElementById('loginButton');
+    const signupButton = document.getElementById('signupButton');
+
+    loginButton.addEventListener('click', function() {
+        formTitle.textContent = 'Login';
+        formSection.style.display = 'block';
+        document.querySelector('.patient-fields').style.display = 'none';
+        document.querySelector('.doctor-fields').style.display = 'none';
+    });
+
+    signupButton.addEventListener('click', function() {
+        formTitle.textContent = 'Signup';
+        formSection.style.display = 'block';
+        document.getElementById('userType').dispatchEvent(new Event('change'));
+    });
+
+    // Toggle form fields based on user type
+    document.getElementById('userType').addEventListener('change', function() {
+        const userType = this.value;
+        const doctorFields = document.querySelector('.doctor-fields');
+        const patientFields = document.querySelector('.patient-fields');
+        
+        if (userType === 'doctor') {
+            doctorFields.style.display = 'block';
+            patientFields.style.display = 'none';
+        } else {
+            doctorFields.style.display = 'none';
+            patientFields.style.display = 'block';
+        }
+    });
+
+    // Slideshow script
+    let slideIndex = 0;
+    showSlides();
+
+    function showSlides() {
+        let slides = document.getElementsByClassName("mySlides");
+        let dots = document.getElementsByClassName("dot");
+        
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) {slideIndex = 1}
+        
+        for (let i = 0; dots && i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+
+        slides[slideIndex-1].style.display = "block";
+        if (dots) {
+            dots[slideIndex-1].className += " active";
+        }
+        
+        setTimeout(showSlides, 3000); // Change image every 3 seconds
+    }
+
+    // Trigger change event on page load to set the correct fields visibility
+    document.getElementById('userType').dispatchEvent(new Event('change'));
+</script>
+
+</body>
+</html>

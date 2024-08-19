@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management System - Admin Dashboard</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            padding: 10px 0;
+            margin-bottom: 20px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo img {
+            width: 100px;
+            height: auto;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 15px;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            font-weight: bold;
+            color: #343a40;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: #e9ecef;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            margin-bottom: 15px;
+            font-size: 22px;
+            color: #343a40;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            background-color: #f8f9fa;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .alert {
+            display: none;
+            padding: 10px;
+            background-color: #f44336;
+            color: white;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .alert.success {
+            background-color: #4CAF50;
+        }
+
+        .alert.error {
+            background-color: #f44336;
+        }
+
+        footer {
+            background-color: #ffffff;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            width: 100%;
+            text-align: center;
+            margin-top: 40px;
+            position: fixed;
+            bottom: 0;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-container p {
+            margin: 0;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-container">
+        <div class="logo">
+            <img src="https://via.placeholder.com/100x50?text=Logo" alt="Hospital Management System Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+    <h1>Admin Dashboard</h1>
+
+    <div class="card">
+        <h2>Import Users</h2>
+        <div class="alert error" id="importUsersAlert"></div>
+        <form id="importUsersForm">
+            <label for="importFile">Select JSON/XML File:</label>
+            <input type="file" id="importFile" name="importFile" accept=".json, .xml" required>
+
+            <button type="submit">Import Users</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>Show All Doctors</h2>
+        <div class="alert success" id="showDoctorsAlert"></div>
+        <form id="showDoctorsForm">
+            <label for="doctorSchedule">Select Doctor:</label>
+            <select id="doctorSchedule" name="doctorSchedule" required>
+                <option value="">Select Doctor</option>
+                <option value="dr_smith">Dr. Smith</option>
+                <option value="dr_jones">Dr. Jones</option>
+                <option value="dr_williams">Dr. Williams</option>
+            </select>
+
+            <button type="submit">Show Schedule</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>Cancel Appointments</h2>
+        <div class="alert error" id="cancelAppointmentsAlert"></div>
+        <form id="cancelAppointmentsForm">
+            <label for="appointmentDateCancel">Select Date:</label>
+            <input type="date" id="appointmentDateCancel" name="appointmentDateCancel" required>
+
+            <label for="doctorSelectCancel">Select Doctor:</label>
+            <select id="doctorSelectCancel" name="doctorSelectCancel" required>
+                <option value="">Select Doctor</option>
+                <option value="dr_smith">Dr. Smith</option>
+                <option value="dr_jones">Dr. Jones</option>
+                <option value="dr_williams">Dr. Williams</option>
+            </select>
+
+            <button type="submit">Cancel Appointments</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>Show All Patients</h2>
+        <div class="alert success" id="showPatientsAlert"></div>
+        <form id="showPatientsForm">
+            <label for="filterPatients">Filter by:</label>
+            <select id="filterPatients" name="filterPatients" required>
+                <option value="all">All Patients</option>
+                <option value="recent">Recently Added</option>
+                <option value="age">Age</option>
+                <option value="condition">Condition</option>
+            </select>
+
+            <button type="submit">Show Patients</button>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-container">
+        <p>&copy; 2024 Hospital Management System. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<script>
+    // Form validation and submission handling
+    document.getElementById('importUsersForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const fileInput = document.getElementById('importFile');
+        if (fileInput.files.length === 0) {
+            showAlert('importUsersAlert', 'Please select a file to import.', 'error');
+        } else {
+            showAlert('importUsersAlert', 'Users imported successfully!', 'success');
+            // Reset form
+            this.reset();
+        }
+    });
+
+    document.getElementById('showDoctorsForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const doctor = document.getElementById('doctorSchedule').value;
+        if (doctor === '') {
+            showAlert('showDoctorsAlert', 'Please select a doctor.', 'error');
+        } else {
+            showAlert('showDoctorsAlert', 'Showing schedule for ' + doctor + '.', 'success');
+        }
+    });
+
+    document.getElementById('cancelAppointmentsForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const date = document.getElementById('appointmentDateCancel').value;
+        const doctor = document.getElementById('doctorSelectCancel').value;
+        if (date === '' || doctor === '') {
+            showAlert('cancelAppointmentsAlert', 'Please select both a date and a doctor.', 'error');
+        } else {
+            showAlert('cancelAppointmentsAlert', 'Appointments for ' + doctor + ' on ' + date + ' have been canceled.', 'success');
+            this.reset();
+        }
+    });
+
+    document.getElementById('showPatientsForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const filter = document.getElementById('filterPatients').value;
+        showAlert('showPatientsAlert', 'Showing patients filtered by: ' + filter + '.', 'success');
+    });
+
+    function showAlert(elementId, message, type) {
+        const alertElement = document.getElementById(elementId);
+        alertElement.textContent = message;
+        alertElement.className = 'alert ' + type;
+        alertElement.style.display = 'block';
+        setTimeout(function() {
+            alertElement.style.display = 'none';
+        }, 3000);
+    }
+</script>
+
+</body>
+</html>
