@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard - Hospital Management</title>
+    <style>
+        /* Reset margin, padding, and box sizing */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #007bff;
+            padding: 15px 0;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 10;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10%;
+        }
+
+        .logo img {
+            width: 50px;
+            height: 50px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+
+        main {
+            flex: 1;
+            padding-top: 80px; /* Adjust padding to account for fixed header */
+        }
+
+        footer {
+            background-color: #007bff;
+            padding: 20px 0;
+            color: white;
+            text-align: center;
+            width: 100%;
+            position: relative;
+            bottom: 0;
+        }
+
+        .dashboard-container {
+            max-width: 800px;
+            margin: 0 auto 50px auto;
+            background-color: #f9f9f9;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .dashboard-options {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-options button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .dashboard-options button:hover {
+            background-color: #218838;
+        }
+
+        .profile-section {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            text-align: left;
+        }
+
+        .content-display {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .doctor-photo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+
+        .doctor-name {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        /* Login Modal */
+        #loginModal {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+        }
+
+        .login-container {
+            width: 90%;
+            max-width: 400px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="loginModal">
+        <div class="login-container">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+                <div id="error-message" class="error-message"></div>
+            </form>
+        </div>
+    </div>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="images/logo.png" alt="Hospital Logo">
+            </div>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#" id="profileLink">Profile</a></li>
+                <li><a href="#" id="logoutLink">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="dashboard-container">
+            <h2 id="dashboard-title">Doctor Dashboard</h2>
+            <div id="profile" class="profile-section">
+                <!-- Profile information will be loaded here -->
+            </div>
+            <div id="dashboard-options" class="dashboard-options">
+                <button id="viewMyScheduleBtn">View My Schedule</button>
+                <button id="updateMyScheduleBtn">Update My Schedule</button>
+                <button id="viewAppointmentsBtn">View Appointments</button>
+            </div>
+
+            <!-- Content Display Area -->
+            <div id="content-display" class="content-display">
+                <p>Select an option from above to view details.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Hospital Management System. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('loginForm');
+    const loginModal = document.getElementById('loginModal');
+
+    loginForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const errorMessage = document.getElementById('error-message');
+
+        const user = {
+            username: 'doctor',
+            password: 'password123',
+            name: 'Dr. Smith',
+            email: 'dr.smith@hospital.com',
+            role: 'doctor',
+            available: '09:00-12:00' // Hardcoded schedule in 24-hour format
+        };
+
+        if (username === user.username && password === user.password) {
+            localStorage.setItem('user', JSON.stringify(user));
+            loginModal.style.display = 'none';
+            showDashboard(user);
+        } else {
+            errorMessage.textContent = "Invalid username or password";
+        }
+    });
+
+    function showDashboard(user) {
+        document.getElementById('dashboard-title').textContent = `Doctor Dashboard`;
+
+        loadProfile(user);
+        loadOptions(user);
+    }
+
+    function loadProfile(user) {
+        const profileSection = document.getElementById('profile');
+        profileSection.innerHTML = `
+            <h3>Profile</h3>
+            <p><strong>Name:</strong> ${user.name}</p>
+            <p><strong>Email:</strong> ${user.email}</p>
+        `;
+    }
+
+    function loadOptions(user) {
+        document.getElementById('viewMyScheduleBtn').addEventListener('click', function() {
+            viewMySchedule(user);
+        });
+        document.getElementById('updateMyScheduleBtn').addEventListener('click', function() {
+            updateMySchedule(user);
+        });
+        document.getElementById('viewAppointmentsBtn').addEventListener('click', viewAppointments);
+        document.getElementById('logoutLink').addEventListener('click', logout);
+    }
+
+    function viewMySchedule(user) {
+        const content = document.getElementById('content-display');
+        content.innerHTML = `
+            <h3>My Schedule</h3>
+            <p><strong>Available Time:</strong> ${user.available.replace("-", " - ")}</p>
+        `;
+    }
+
+    function updateMySchedule(user) {
+        const [start, end] = user.available.split('-');
+        const content = document.getElementById('content-display');
+        content.innerHTML = `
+            <h3>Update My Schedule</h3>
+            <div>
+                <label for="schedule-start">Start Time: </label>
+                <input type="time" id="schedule-start" class="time-input" value="${start}" />
+                <label for="schedule-end">End Time: </label>
+                <input type="time" id="schedule-end" class="time-input" value="${end}" />
+                <button id="updateScheduleBtn">Update</button>
+            </div>
+        `;
+
+        document.getElementById('updateScheduleBtn').addEventListener('click', function() {
+            const startTime = document.getElementById('schedule-start').value;
+            const endTime = document.getElementById('schedule-end').value;
+
+            if (startTime && endTime) {
+                user.available = `${startTime}-${endTime}`;
+                localStorage.setItem('user', JSON.stringify(user));
+                viewMySchedule(user);
+                alert(`Schedule updated to: ${user.available.replace("-", " - ")}`);
+            } else {
+                alert("Please select both start and end times.");
+            }
+        });
+    }
+
+    const appointments = [
+        { id: 1, patient: "John Doe", date: "2024-09-01", time: "10:00", reason: "General Checkup" },
+        { id: 2, patient: "Jane Doe", date: "2024-09-02", time: "11:00", reason: "Follow-up" },
+        { id: 3, patient: "Jim Bean", date: "2024-09-03", time: "09:30", reason: "Consultation" }
+    ];
+
+    function viewAppointments() {
+        const content = document.getElementById('content-display');
+        content.innerHTML = `
+            <h3>Appointments</h3>
+            <table>
+                <tr>
+                    <th>Patient</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Reason</th>
+                    <th>Actions</th>
+                </tr>
+                ${appointments.map(appointment => `
+                    <tr>
+                        <td>${appointment.patient}</td>
+                        <td>${appointment.date}</td>
+                        <td>${appointment.time}</td>
+                        <td>${appointment.reason}</td>
+                        <td>
+                            <button onclick="rescheduleAppointment(${appointment.id})">Reschedule</button>
+                            <button onclick="cancelAppointment(${appointment.id})">Cancel</button>
+                        </td>
+                    </tr>
+                `).join('')}
+            </table>
+        `;
+    }
+
+    window.rescheduleAppointment = function(id) {
+        const appointment = appointments.find(app => app.id === id);
+        if (!appointment) return;
+
+        const newDate = prompt("Enter new date (YYYY-MM-DD):", appointment.date);
+        const newTime = prompt("Enter new time (HH:MM):", appointment.time);
+        const reason = prompt("Reason for rescheduling:", appointment.reason);
+
+        if (newDate && newTime) {
+            appointment.date = newDate;
+            appointment.time = newTime;
+            appointment.reason = reason;
+            alert(`Appointment rescheduled to ${newDate} at ${newTime}.`);
+            viewAppointments();
+        } else {
+            alert("Invalid date or time entered.");
+        }
+    };
+
+    window.cancelAppointment = function(id) {
+        const appointment = appointments.find(app => app.id === id);
+        if (!appointment) return;
+
+        const reason = prompt("Reason for cancellation:", appointment.reason);
+        if (confirm(`Are you sure you want to cancel the appointment with ${appointment.patient}?`)) {
+            const index = appointments.indexOf(appointment);
+            appointments.splice(index, 1);
+            alert(`Appointment with ${appointment.patient} cancelled. Reason: ${reason}`);
+            viewAppointments();
+        }
+    };
+
+    function logout() {
+        localStorage.removeItem('user');
+        window.location.reload();
+    }
+});
+    </script>
+</body>
+</html>

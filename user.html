@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - Hospital Management System</title>
+    <style>
+        /* Reset margin, padding, and box sizing */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header and Footer Styles */
+        header {
+            background-color: #007bff;
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 10;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10%;
+        }
+
+        .logo img {
+            width: 50px;
+            height: 50px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+
+        footer {
+            background-color: #007bff;
+            padding: 20px 0;
+            color: white;
+            text-align: center;
+            width: 100%;
+            position: relative;
+            bottom: 0;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Dashboard Styles */
+        #dashboard-content {
+            padding: 100px 50px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .dashboard-container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #f9f9f9;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .dashboard-options {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-options button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            display: none; /* Initially hidden */
+        }
+
+        .dashboard-options button.enabled {
+            display: block; /* Show only when enabled */
+        }
+
+        .dashboard-options button:hover {
+            background-color: #218838;
+        }
+
+        .content-display {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .btn-primary {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .profile-section {
+            background-color: #e9ecef;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        .profile-section p {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="images/logo.png" alt="Hospital Logo">
+            </div>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div id="dashboard-content">
+        <div class="dashboard-container">
+            <h2 id="welcome-message">Welcome, User</h2>
+            <div id="profile-section" class="profile-section" style="display: none;">
+                <h3>Patient Profile</h3>
+                <p><strong>Name:</strong> <span id="patient-name"></span></p>
+                <p><strong>Contact:</strong> <span id="patient-contact"></span></p>
+                <p><strong>Address:</strong> <span id="patient-address"></span></p>
+                <p><strong>Blood Group:</strong> <span id="patient-blood-group"></span></p>
+                <button onclick="changeProfile()" class="btn-primary">Change Profile</button>
+            </div>
+            <div class="dashboard-options">
+                <button id="add-patient-btn" onclick="showAddPatientForm()">Add Patient</button>
+                <button id="book-appointment-btn" onclick="showBookAppointmentForm()">Book Appointment</button>
+                <button id="view-appointments-btn" onclick="showAppointments()">View Appointments</button>
+            </div>
+            <div id="content-display" class="content-display"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Hospital Management System. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const doctors = [
+            { id: 1, name: "Dr. John Doe", specialty: "Cardiology", available: "09:00 AM - 12:00 PM, 02:00 PM - 08:00 PM" },
+            { id: 2, name: "Dr. Jane Smith", specialty: "Neurology", available: "09:00 AM - 12:00 PM, 02:00 PM - 08:00 PM" },
+            { id: 3, name: "Dr. Alan Turing", specialty: "Orthopedics", available: "09:00 AM - 12:00 PM, 02:00 PM - 08:00 PM" }
+        ];
+
+        const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+        const patients = JSON.parse(localStorage.getItem('patients')) || [];
+
+        // Check if patient data exists
+        const patientData = JSON.parse(localStorage.getItem('currentPatient'));
+        if (patientData) {
+            enableDashboardOptions();
+            displayPatientProfile(patientData);
+        } else {
+            document.getElementById('add-patient-btn').classList.add('enabled');
+        }
+
+        function enableDashboardOptions() {
+            document.getElementById('book-appointment-btn').classList.add('enabled');
+            document.getElementById('view-appointments-btn').classList.add('enabled');
+        }
+
+        function displayPatientProfile(data) {
+            document.getElementById('welcome-message').textContent = `Welcome, ${data.name}`;
+            document.getElementById('patient-name').textContent = data.name;
+            document.getElementById('patient-contact').textContent = data.contact;
+            document.getElementById('patient-address').textContent = data.address;
+            document.getElementById('patient-blood-group').textContent = data.bloodGroup;
+            document.getElementById('profile-section').style.display = 'block';
+        }
+
+        function showAddPatientForm() {
+            const content = document.getElementById('content-display');
+            content.innerHTML = `
+                <h3>Add Patient</h3>
+                <form id="addPatientForm" onsubmit="addPatient(event)">
+                    <div class="form-group">
+                        <label for="patientName">Name:</label>
+                        <input type="text" id="patientName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="patientAge">Age:</label>
+                        <input type="number" id="patientAge" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="patientContact">Contact:</label>
+                        <input type="text" id="patientContact" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="patientAddress">Address:</label>
+                        <textarea id="patientAddress" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="patientBloodGroup">Blood Group:</label>
+                        <select id="patientBloodGroup" required>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="patientHistory">Medical History:</label>
+                        <textarea id="patientHistory" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Add Patient</button>
+                </form>
+            `;
+        }
+
+        function addPatient(event) {
+            event.preventDefault();
+            const name = document.getElementById('patientName').value;
+            const age = document.getElementById('patientAge').value;
+            const contact = document.getElementById('patientContact').value;
+            const address = document.getElementById('patientAddress').value;
+            const bloodGroup = document.getElementById('patientBloodGroup').value;
+            const history = document.getElementById('patientHistory').value;
+
+            const patientData = { name, age, contact, address, bloodGroup, history };
+            patients.push(patientData);
+            localStorage.setItem('patients', JSON.stringify(patients));
+            localStorage.setItem('currentPatient', JSON.stringify(patientData));
+
+            displayPatientProfile(patientData);
+            enableDashboardOptions();
+            alert('Patient added successfully!');
+        }
+
+        function changeProfile() {
+            localStorage.removeItem('currentPatient');
+            location.reload();
+        }
+
+        function showBookAppointmentForm() {
+            const content = document.getElementById('content-display');
+            content.innerHTML = `
+                <h3>Book Appointment</h3>
+                <form id="bookAppointmentForm" onsubmit="bookAppointment(event)">
+                    <div class="form-group">
+                        <label for="selectPatient">Select Patient</label>
+                        <select id="selectPatient" required>
+                            <option value="" disabled selected>Select a patient</option>
+                            ${patients.map((patient, index) => `
+                                <option value="${index}">${patient.name}</option>
+                            `).join('')}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="selectDoctor">Select Doctor</label>
+                        <select id="selectDoctor" required onchange="loadAvailableTimes()">
+                            <option value="" disabled selected>Select a doctor</option>
+                            ${doctors.map(doctor => `
+                                <option value="${doctor.id}">${doctor.name} (${doctor.specialty})</option>
+                            `).join('')}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="appointmentDate">Appointment Date</label>
+                        <input type="date" id="appointmentDate" required onchange="loadAvailableTimes()">
+                    </div>
+                    <div class="form-group">
+                        <label for="appointmentTime">Appointment Time</label>
+                        <select id="appointmentTime" required>
+                            <option value="" disabled selected>Select a time</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-primary">Book Appointment</button>
+                </form>
+            `;
+        }
+
+        function loadAvailableTimes() {
+            const doctorId = document.getElementById('selectDoctor').value;
+            const date = document.getElementById('appointmentDate').value;
+            const appointmentTime = document.getElementById('appointmentTime');
+            appointmentTime.innerHTML = `<option value="" disabled selected>Select a time</option>`;
+
+            if (!doctorId || !date) return;
+
+            const doctor = doctors.find(doc => doc.id == doctorId);
+            const availableTimes = getAvailableTimes(doctor, date);
+
+            availableTimes.forEach(time => {
+                const option = document.createElement('option');
+                option.value = time;
+                option.textContent = time;
+                appointmentTime.appendChild(option);
+            });
+
+            if (availableTimes.length === 0) {
+                alert("No available time slots. Please choose another date or doctor.");
+            }
+        }
+
+        function getAvailableTimes(doctor, date) {
+            const availableTimes = [];
+            const [startMorning, endMorning] = doctor.available.split(',')[0].trim().split(' - ');
+            const [startEvening, endEvening] = doctor.available.split(',')[1].trim().split(' - ');
+
+            let time = convertTo24Hour(startMorning);
+            const end = convertTo24Hour(endMorning);
+            while (time < end) {
+                if (isTimeAvailable(doctor.id, date, time)) {
+                    availableTimes.push(convertTo12Hour(time));
+                }
+                time = add30Minutes(time);
+            }
+
+            time = convertTo24Hour(startEvening);
+            while (time < convertTo24Hour(endEvening)) {
+                if (isTimeAvailable(doctor.id, date, time)) {
+                    availableTimes.push(convertTo12Hour(time));
+                }
+                time = add30Minutes(time);
+            }
+
+            return availableTimes;
+        }
+
+        function isTimeAvailable(doctorId, date, time) {
+            const appointment = appointments.find(app => app.doctorId == doctorId && app.date == date && app.time == convertTo12Hour(time));
+            return !appointment && isValidAppointmentTime(time);
+        }
+
+        function bookAppointment(event) {
+            event.preventDefault();
+
+            const patientIndex = document.getElementById('selectPatient').value;
+            const patient = patients[patientIndex];
+            const doctorId = document.getElementById('selectDoctor').value;
+            const date = document.getElementById('appointmentDate').value;
+            const time = document.getElementById('appointmentTime').value;
+
+            const existingAppointment = appointments.find(app => app.doctorId == doctorId && app.date == date && app.time == time);
+            if (existingAppointment) {
+                alert(`The doctor is already booked at this time. Please select a different time.`);
+                return;
+            }
+
+            appointments.push({ doctorId, date, time, patientName: patient.name });
+            localStorage.setItem('appointments', JSON.stringify(appointments));
+
+            alert('Appointment booked successfully!');
+        }
+
+        function convertTo24Hour(time) {
+            const [hour, minute, period] = time.match(/(\d+):(\d+)\s*(AM|PM)/i).slice(1);
+            let convertedHour = parseInt(hour);
+            if (period.toUpperCase() === "PM" && convertedHour < 12) {
+                convertedHour += 12;
+            }
+            if (period.toUpperCase() === "AM" && convertedHour === 12) {
+                convertedHour = 0;
+            }
+            return `${convertedHour}:${minute}`;
+        }
+
+        function convertTo12Hour(time) {
+            let [hour, minute] = time.split(':');
+            hour = parseInt(hour);
+            const period = hour >= 12 ? 'PM' : 'AM';
+            hour = hour % 12 || 12;
+            return `${hour}:${minute} ${period}`;
+        }
+
+        function add30Minutes(time) {
+            let [hour, minute] = time.split(':').map(Number);
+            minute += 30;
+            if (minute >= 60) {
+                minute -= 60;
+                hour += 1;
+            }
+            return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+        }
+
+        function isValidAppointmentTime(time) {
+            const [hour, minute] = time.split(':').map(Number);
+            if (hour < 8 || hour >= 20 || (hour >= 12 && hour < 14)) {
+                return false;
+            }
+            return true;
+        }
+
+        function showAppointments() {
+            const content = document.getElementById('content-display');
+            content.innerHTML = `
+                <h3>Appointments</h3>
+                <table>
+                    <tr>
+                        <th>Patient</th>
+                        <th>Doctor</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                    </tr>
+                    ${appointments.map(app => {
+                        const doctor = doctors.find(doc => doc.id == app.doctorId);
+                        return `
+                            <tr>
+                                <td>${app.patientName}</td>
+                                <td>${doctor.name} (${doctor.specialty})</td>
+                                <td>${app.date}</td>
+                                <td>${app.time}</td>
+                            </tr>
+                        `;
+                    }).join('')}
+                </table>
+            `;
+        }
+    </script>
+</body>
+
+</html>
