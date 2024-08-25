@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Hospital Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        /* Navigation bar styling */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #007bff;
+            padding: 15px;
+        }
+
+        .navbar img {
+            height: 50px;
+        }
+
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .navbar li {
+            margin-left: 20px;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+        }
+
+        /* Main content styling */
+        .container {
+            padding: 20px;
+        }
+
+        .header {
+            font-size: 28px;
+            color: #007bff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .box {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px;
+            flex: 1;
+            min-width: 45%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .box-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .label {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .info {
+            font-size: 16px;
+            margin-top: 5px;
+            color: #555;
+        }
+
+        /* Footer styling */
+        .footer {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .box {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation bar -->
+    <div class="navbar">
+        <img src="sign.png" alt="Hospital Logo">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="dash.html">Dashboard</a></li>
+            <li><a href="AboutUs.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- Main content -->
+    <div class="container">
+        <div class="header">Dashboard</div>
+        
+        <div class="box-container">
+            <div class="box">
+                <div class="label">Patient Overview:</div>
+                <div class="info">Total Patients: 125</div>
+                <div class="info">Admitted Today: 10</div>
+                <div class="info">Discharged Today: 5</div>
+            </div>
+
+            <div class="box">
+                <div class="label">Staff Overview:</div>
+                <div class="info">Total Doctors: 40</div>
+                <div class="info">Total Nurses: 60</div>
+                <div class="info">Other Staff: 30</div>
+            </div>
+        </div>
+
+        <div class="box-container">
+            <div class="box">
+                <div class="label">Appointment Overview:</div>
+                <div class="info">Total Appointments Today: 45</div>
+                <div class="info">Upcoming Appointments: 20</div>
+            </div>
+
+            <div class="box">
+                <div class="label">Hospital Resources:</div>
+                <div class="info">Available Beds: 50</div>
+                <div class="info">ICU Beds Occupied: 15</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        © 2024 Hospital Management System. All Rights Reserved.
+    </div>
+
+</body>
+</html>

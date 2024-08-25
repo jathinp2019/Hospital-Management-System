@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Hospital Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+           
+        }
+
+        /* Navigation bar styling */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #007bff;
+            padding: 15px;
+        }
+
+        .navbar img {
+            height: 50px;
+        }
+
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .navbar li {
+            margin-left: 20px;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+        }
+
+        /* Main content styling */
+        .container {
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .header {
+            font-size: 36px;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .welcome-section {
+            font-size: 20px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .info-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .info-box {
+            background-color: #57718d;
+            color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px;
+            flex: 1;
+            min-width: 45%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .info-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .info-box .label {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .info-box .info {
+            font-size: 18px;
+        }
+
+        /* Footer styling */
+        .footer {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        /* Popup styling */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .popup .popup-header {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .popup .popup-content {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .popup .close-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        /* Background overlay for popup */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 5;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .info-box {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation bar -->
+    <div class="navbar">
+        <img src="sign.png" alt="Hospital Logo">
+        <ul>
+            <li><a href="Home.html">Home</a></li>
+            <li><a href="dash.html">Dashboard</a></li>
+            <li><a href="AboutUs.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- Main content -->
+    <div class="container">
+        <div class="header">Welcome to Hospital Management System</div>
+
+        <div class="welcome-section">
+            Our hospital provides world-class healthcare services with a patient-centered approach. We are committed to ensuring the well-being of our patients through state-of-the-art facilities and experienced medical professionals.
+        </div>
+
+        <div class="header">Important Information</div>
+
+        <div class="info-section">
+            <div class="info-box" onclick="showPopup('covid')">
+                <div class="label">COVID-19 Guidelines</div>
+                <div class="info">Learn about our hospital's safety protocols for COVID-19.</div>
+            </div>
+
+            <div class="info-box" onclick="showPopup('services')">
+                <div class="label">Our Services</div>
+                <div class="info">Explore the wide range of medical services we offer.</div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-box" onclick="showPopup('emergency')">
+                <div class="label">Emergency Contact</div>
+                <div class="info">Find out how to contact us in case of an emergency.</div>
+            </div>
+
+            <div class="info-box" onclick="showPopup('appointment')">
+                <div class="label"><a href="user.html">Book an Appointment6</a></div>
+                <div class="info">Schedule your appointment with our specialists today.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popups -->
+    <div id="covid-popup" class="popup">
+        <div class="popup-header">COVID-19 Guidelines</div>
+        <div class="popup-content">
+            Please follow the guidelines set by our hospital to ensure the safety of all patients and staff. Wear masks, maintain social distancing, and use hand sanitizers provided at various locations within the hospital.
+        </div>
+        <button class="close-btn" onclick="closePopup('covid')">Close</button>
+    </div>
+
+    <div id="services-popup" class="popup">
+        <div class="popup-header">Our Services</div>
+        <div class="popup-content">
+            Our hospital offers a variety of services including cardiology, neurology, orthopedics, pediatrics, and emergency care. We are equipped with the latest technology to provide the best care possible.
+        </div>
+        <button class="close-btn" onclick="closePopup('services')">Close</button>
+    </div>
+
+    <div id="emergency-popup" class="popup">
+        <div class="popup-header">Emergency Contact</div>
+        <div class="popup-content">
+            In case of an emergency, please contact our 24/7 emergency helpline at (123) 456-7890. Our emergency department is always ready to assist you.
+        </div>
+        <button class="close-btn" onclick="closePopup('emergency')">Close</button>
+    </div>
+
+    <div id="appointment-popup" class="popup">
+        <div class="popup-header">Book an Appointment</div>
+        <div class="popup-content">
+            You can book an appointment with our specialists by visiting the 'Contact' page or by calling (123) 456-7890. We look forward to serving you.
+        </div>
+        <button class="close-btn" onclick="closePopup('appointment')">Close</button>
+    </div>
+
+    <!-- Background overlay -->
+    <div id="popup-overlay" class="popup-overlay"></div>
+
+    <!-- Footer -->
+    <div class="footer">
+        © 2024 Hospital Management System. All Rights Reserved.
+    </div>
+
+    <script>
+        // Function to show popup
+        function showPopup(popupId) {
+            document.getElementById(popupId + '-popup').style.display = 'block';
+            document.getElementById('popup-overlay').style.display = 'block';
+        }
+
+        // Function to close popup
+        function closePopup(popupId) {
+            document.getElementById(popupId + '-popup').style.display = 'none';
+            document.getElementById('popup-overlay').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

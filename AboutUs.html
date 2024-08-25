@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Hospital Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('hospital4.jpg'); /* Background image */
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: #fff;
+        }
+
+        /* Overlay to make text readable */
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.6); /* Dark overlay */
+            padding: 20px;
+        }
+
+        /* Navigation bar styling */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #007bff;
+            padding: 15px;
+        }
+
+        .navbar img {
+            height: 50px;
+        }
+
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .navbar li {
+            margin-left: 20px;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+        }
+
+        /* Main content styling */
+        .container {
+            padding: 50px 20px;
+        }
+
+        .header {
+            font-size: 36px;
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .about-section {
+            font-size: 18px;
+            line-height: 1.6;
+            text-align: justify;
+            margin-bottom: 40px;
+        }
+
+        .box {
+            background-color: #007bff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px;
+            flex: 1;
+            min-width: 45%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: white;
+        }
+
+        .box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .box-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .label {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .info {
+            font-size: 16px;
+            margin-top: 5px;
+        }
+
+        /* Footer styling */
+        .footer {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .box {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay">
+        <!-- Navigation bar -->
+        <div class="navbar">
+            <img src="sign.png" alt="Hospital Logo">
+            <ul>
+                <li><a href="dash.html">Home</a></li>
+                <li><a href="dash.html">Dashboard</a></li>
+                <li><a href="AboutUs.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+
+        <!-- Main content -->
+        <div class="container">
+            <div class="header">About Us</div>
+
+            <div class="about-section">
+                Welcome to the Hospital Management System. We are dedicated to providing top-notch healthcare services to our patients. Our hospital is equipped with the latest medical technology and staffed by a team of highly qualified and experienced professionals. Our mission is to offer compassionate, comprehensive, and patient-centered care that meets the highest standards of excellence.
+            </div>
+
+            <div class="header">Our Specialists</div>
+            
+            <div class="box-container">
+                <div class="box">
+                    <div class="label">Dr. John Doe - Cardiologist</div>
+                    <div class="info">Dr. John Doe specializes in treating heart conditions and managing cardiovascular diseases. With over 15 years of experience, he has successfully treated thousands of patients.</div>
+                </div>
+
+                <div class="box">
+                    <div class="label">Dr. Jane Smith - Neurologist</div>
+                    <div class="info">Dr. Jane Smith is an expert in treating neurological disorders. Her areas of expertise include stroke management, epilepsy, and neurodegenerative diseases.</div>
+                </div>
+            </div>
+
+            <div class="box-container">
+                <div class="box">
+                    <div class="label">Dr. Emily Johnson - Pediatrician</div>
+                    <div class="info">Dr. Emily Johnson provides specialized care for infants, children, and adolescents. Her compassionate approach has earned her the trust of countless families.</div>
+                </div>
+
+                <div class="box">
+                    <div class="label">Dr. Michael Lee - Orthopedic Surgeon</div>
+                    <div class="info">Dr. Michael Lee is a renowned orthopedic surgeon with expertise in joint replacement and sports injuries. He has performed numerous successful surgeries, restoring mobility to his patients.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        © 2024 Hospital Management System. All Rights Reserved.
+    </div>
+
+</body>
+</html>
